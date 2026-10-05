@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>古黄金屋 · 古籍文化 | 书中自有黄金屋</title>
+  <meta name="description" content="古黄金屋（guhuangjinwu.com）—— 一个致敬中华典籍的文化空间。精选《论语》《道德经》《诗经》《史记》等传世经典，每日一句，与古人对话。">
+  <meta name="keywords" content="古籍,国学,典籍,论语,道德经,诗经,史记,古黄金屋">
+  <meta name="author" content="古黄金屋">
+  <link rel="canonical" href="https://guhuangjinwu.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="古黄金屋">
+  <meta property="og:title" content="古黄金屋 · 古籍文化">
+  <meta property="og:description" content="书中自有黄金屋 —— 精选传世典籍，每日一句，与古人对话。">
+  <meta property="og:url" content="https://guhuangjinwu.com/">
+  <meta property="og:locale" content="zh_CN">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%239e2b25'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='%23f5efe0' font-family='serif'>古</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&display=swap">
+
+  <style>
+    /* ============ 设计变量：古籍风（宣纸底色 + 赭红 + 宋体） ============ */
+    :root {
+      --paper: #f5efe0;          /* 宣纸底色 */
+      --paper-deep: #ece4cd;     /* 深色宣纸 */
+      --ink: #2e2a24;            /* 墨色 */
+      --ink-light: #5d5548;      /* 淡墨 */
+      --cinnabar: #9e2b25;       /* 赭红/朱砂 */
+      --cinnabar-deep: #7c1f1a;
+      --gold: #b8863b;           /* 赭金 */
+      --line: rgba(46, 42, 36, .18);
+      --shadow: 0 8px 30px rgba(46, 42, 36, .10);
+      --radius: 4px;
+      --max-w: 1120px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+      color: var(--ink);
+      background-color: var(--paper);
+      /* 宣纸纹理：多层渐变模拟纤维感 */
+      background-image:
+        radial-gradient(ellipse at 20% 10%, rgba(184, 134, 59, .05), transparent 55%),
+        radial-gradient(ellipse at 85% 90%, rgba(158, 43, 37, .04), transparent 50%),
+        repeating-linear-gradient(0deg, transparent 0 3px, rgba(46, 42, 36, .012) 3px 4px);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection { background: var(--cinnabar); color: var(--paper); }
+
+    /* 焦点可见性（无障碍） */
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--cinnabar);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    /* 跳转链接（无障碍） */
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--cinnabar);
+      color: var(--paper);
+      padding: 10px 20px;
+      z-index: 1000;
+    }
+    .skip-link:focus { left: 12px; top: 12px; }
+
+    /* ============ 顶部导航 ============ */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 239, 224, .92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-wrap {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .brand-seal {
+      width: 40px;
+      height: 40px;
+      background: var(--cinnabar);
+      color: var(--paper);
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 700;
+      border-radius: 4px;
+      box-shadow: 2px 2px 0 rgba(124, 31, 26, .35);
+      flex-shrink: 0;
+    }
+    .brand-text { font-size: 20px; font-weight: 700; letter-spacing: 4px; }
+    .brand-text small {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--ink-light);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+      font-size: 18px;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .nav-menu {
+      display: flex;
+      gap: 8px;
+      list-style: none;
+    }
+    .nav-menu a {
+      display: block;
+      padding: 8px 16px;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 2px;
+      border-radius: var(--radius);
+      transition: color .2s, background .2s;
+    }
+    .nav-menu a:hover { color: var(--cinnabar); background: rgba(158, 43, 37, .06); }
+
+    /* ============ 首屏 Hero ============ */
+    .hero {
+      min-height: calc(100dvh - 68px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* 背景大字装饰 */
+    .hero::before {
+      content: "書";
+      position: absolute;
+      right: -2%;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: clamp(220px, 38vw, 480px);
+      font-weight: 900;
+      color: rgba(158, 43, 37, .05);
+      pointer-events: none;
+      user-select: none;
+      line-height: 1;
+    }
+    .hero-inner { position: relative; max-width: 760px; }
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 4px 18px;
+      letter-spacing: 6px;
+      font-size: 13px;
+      margin-bottom: 28px;
+      border-radius: 2px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 76px);
+      font-weight: 900;
+      letter-spacing: 12px;
+      line-height: 1.3;
+      margin-bottom: 24px;
+    }
+    .hero h1 .accent { color: var(--cinnabar); }
+    .hero-quote {
+      font-size: clamp(16px, 2.4vw, 20px);
+      color: var(--ink-light);
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+    }
+    .hero-quote-src { font-size: 13px; color: var(--gold); letter-spacing: 2px; margin-bottom: 40px; }
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 13px 38px;
+      letter-spacing: 4px;
+      text-decoration: none;
+      border-radius: var(--radius);
+      font-size: 15px;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .btn-primary {
+      background: var(--cinnabar);
+      color: var(--paper);
+      box-shadow: 3px 3px 0 var(--cinnabar-deep);
+    }
+    .btn-primary:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--cinnabar-deep); }
+    .btn-ghost { border: 1px solid var(--ink); color: var(--ink); }
+    .btn-ghost:hover { border-color: var(--cinnabar); color: var(--cinnabar); }
+
+    /* ============ 通用 Section ============ */
+    .section { padding: 96px 24px; }
+    .section-alt { background: var(--paper-deep); }
+    .container { max-width: var(--max-w); margin: 0 auto; }
+    .section-head { text-align: center; margin-bottom: 56px; }
+    .section-head .zh {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 700;
+      letter-spacing: 8px;
+    }
+    .section-head .divider {
+      width: 56px;
+      height: 3px;
+      background: var(--cinnabar);
+      margin: 18px auto;
+      position: relative;
+    }
+    .section-head .divider::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      background: var(--gold);
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .section-head .sub { color: var(--ink-light); letter-spacing: 3px; font-size: 14px; }
+
+    /* ============ 典籍卡片 ============ */
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+    .book-card {
+      background: #fbf7ea;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 36px 26px;
+      text-align: center;
+      position: relative;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .book-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    /* 卡片顶部书签 */
+    .book-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 34px;
+      height: 12px;
+      background: var(--cinnabar);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 70%, 0 100%);
+    }
+    .book-era { font-size: 12px; color: var(--gold); letter-spacing: 3px; margin-bottom: 10px; }
+    .book-name { font-size: 26px; font-weight: 700; letter-spacing: 6px; margin-bottom: 14px; }
+    .book-desc { font-size: 14px; color: var(--ink-light); min-height: 76px; }
+    .book-quote {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--line);
+      font-size: 13px;
+      color: var(--cinnabar);
+      letter-spacing: 1px;
+    }
+
+    /* ============ 每日一句 ============ */
+    .daily-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+      background: #fbf7ea;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--cinnabar);
+      border-radius: var(--radius);
+      padding: 48px 40px;
+      box-shadow: var(--shadow);
+    }
+    .daily-text {
+      font-size: clamp(19px, 3vw, 26px);
+      font-weight: 600;
+      letter-spacing: 2px;
+      line-height: 2;
+      margin-bottom: 18px;
+    }
+    .daily-src { color: var(--gold); letter-spacing: 3px; font-size: 14px; margin-bottom: 28px; }
+    .daily-btn {
+      background: none;
+      border: 1px solid var(--cinnabar);
+      color: var(--cinnabar);
+      font-family: inherit;
+      font-size: 14px;
+      letter-spacing: 3px;
+      padding: 10px 30px;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .2s, color .2s;
+    }
+    .daily-btn:hover { background: var(--cinnabar); color: var(--paper); }
+
+    /* ============ 典籍下载 ============ */
+    .dl-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .dl-card {
+      background: #fbf7ea;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 34px 28px;
+      text-align: center;
+      transition: transform .25s, box-shadow .25s;
+      display: flex;
+      flex-direction: column;
+    }
+    .dl-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .dl-card-paid { border: 2px solid var(--cinnabar); position: relative; }
+    .dl-badge {
+      display: inline-block;
+      align-self: center;
+      font-size: 12px;
+      letter-spacing: 3px;
+      padding: 3px 14px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .dl-badge-free { border: 1px solid var(--gold); color: var(--gold); }
+    .dl-badge-paid { background: var(--cinnabar); color: var(--paper); }
+    .dl-name { font-size: 21px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; }
+    .dl-meta { font-size: 12px; color: var(--gold); letter-spacing: 2px; margin-bottom: 14px; }
+    .dl-desc { font-size: 14px; color: var(--ink-light); flex: 1; margin-bottom: 20px; }
+    .dl-price { font-size: 26px; font-weight: 900; color: var(--cinnabar); margin-bottom: 18px; }
+    .dl-price span { display: block; font-size: 12px; font-weight: 400; color: var(--ink-light); letter-spacing: 2px; }
+    .dl-btn { width: 100%; box-sizing: border-box; cursor: pointer; font-family: inherit; border: none; }
+    .dl-note {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--cinnabar);
+      background: rgba(158, 43, 37, .07);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      letter-spacing: 1px;
+    }
+
+    /* ============ 文章动态 ============ */
+    .article-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .article-card {
+      background: #fbf7ea;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--cinnabar);
+      border-radius: var(--radius);
+      padding: 30px 26px;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .article-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .article-date { font-size: 12px; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px; }
+    .article-title { font-size: 19px; font-weight: 700; letter-spacing: 1px; line-height: 1.6; margin-bottom: 12px; }
+    .article-desc { font-size: 14px; color: var(--ink-light); margin-bottom: 18px; }
+    .article-tag { font-size: 13px; color: var(--cinnabar); letter-spacing: 2px; }
+
+    /* ============ 关于 ============ */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+    .about-visual {
+      aspect-ratio: 1;
+      background: var(--cinnabar);
+      border-radius: var(--radius);
+      display: grid;
+      place-items: center;
+      box-shadow: 8px 8px 0 var(--paper-deep), 8px 8px 0 1px var(--line);
+      position: relative;
+    }
+    .about-visual span {
+      font-size: clamp(90px, 14vw, 150px);
+      font-weight: 900;
+      color: var(--paper);
+      writing-mode: vertical-rl;
+      letter-spacing: 18px;
+    }
+    .about-text h3 { font-size: 24px; letter-spacing: 4px; margin-bottom: 20px; }
+    .about-text h3 .accent { color: var(--cinnabar); }
+    .about-text p { color: var(--ink-light); margin-bottom: 16px; letter-spacing: 1px; }
+    .about-stats { display: flex; gap: 40px; margin-top: 28px; flex-wrap: wrap; }
+    .stat b { display: block; font-size: 30px; color: var(--cinnabar); font-weight: 900; }
+    .stat span { font-size: 13px; color: var(--ink-light); letter-spacing: 2px; }
+
+    /* ============ 页脚 ============ */
+    .site-footer {
+      background: var(--ink);
+      color: rgba(245, 239, 224, .75);
+      padding: 48px 24px 32px;
+      text-align: center;
+    }
+    .footer-brand { font-size: 20px; letter-spacing: 6px; color: var(--paper); margin-bottom: 8px; }
+    .footer-slogan { font-size: 13px; letter-spacing: 3px; color: var(--gold); margin-bottom: 24px; }
+    .footer-nav { display: flex; justify-content: center; gap: 28px; margin-bottom: 28px; flex-wrap: wrap; }
+    .footer-nav a { color: rgba(245, 239, 224, .75); text-decoration: none; font-size: 14px; letter-spacing: 2px; }
+    .footer-nav a:hover { color: var(--gold); }
+    .footer-copy { font-size: 12px; letter-spacing: 1px; color: rgba(245, 239, 224, .45); }
+
+    /* ============ 响应式 ============ */
+    @media (max-width: 900px) {
+      .book-grid { grid-template-columns: repeat(2, 1fr); }
+      .dl-grid, .article-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 40px; }
+      .about-visual { max-width: 360px; margin: 0 auto; width: 100%; }
+    }
+    @media (max-width: 640px) {
+      .nav-toggle { display: block; }
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: var(--paper);
+        border-bottom: 1px solid var(--line);
+        padding: 12px 24px 20px;
+        gap: 4px;
+        box-shadow: var(--shadow);
+      }
+      .nav-menu.open { display: flex; }
+      .nav-menu a { padding: 12px 16px; }
+      .hero h1 { letter-spacing: 6px; }
+      .section { padding: 64px 20px; }
+      .book-grid { grid-template-columns: 1fr; }
+      .dl-grid, .article-grid { grid-template-columns: 1fr; }
+      .book-desc { min-height: 0; }
+      .daily-wrap { padding: 36px 24px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳转到主要内容</a>
+
+  <!-- 顶部导航 -->
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#top" aria-label="古黄金屋 首页">
+        <span class="brand-seal" aria-hidden="true">古</span>
+        <span class="brand-text">古黄金屋<small>GUHUANGJINWU.COM</small></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navMenu" aria-label="打开菜单">☰</button>
+      <nav aria-label="主导航">
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="#top">首页</a></li>
+          <li><a href="#books">典籍</a></li>
+          <li><a href="#download">下载</a></li>
+          <li><a href="#articles">动态</a></li>
+          <li><a href="#daily">每日一句</a></li>
+          <li><a href="#about">关于</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- 首屏 -->
+    <section class="hero" id="top">
+      <div class="hero-inner">
+        <span class="hero-tag">古籍文化空间</span>
+        <h1>古<span class="accent">黄</span>金屋</h1>
+        <p class="hero-quote">「 书中自有黄金屋，书中自有颜如玉 」</p>
+        <p class="hero-quote-src">—— 宋 · 赵恒《劝学诗》</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#books">品读典籍</a>
+          <a class="btn btn-ghost" href="#daily">每日一句</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 精选典籍 -->
+    <section class="section section-alt" id="books">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="zh">精选典籍</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="sub">千年文脉 · 传世经典</p>
+        </div>
+        <div class="book-grid">
+          <article class="book-card">
+            <p class="book-era">春秋</p>
+            <h3 class="book-name">论语</h3>
+            <p class="book-desc">孔子及其弟子言行录，儒家思想之源，半部可治天下。</p>
+            <p class="book-quote">「学而不思则罔，思而不学则殆。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">春秋</p>
+            <h3 class="book-name">道德经</h3>
+            <p class="book-desc">老子五千言，道法自然，无为而治，万经之王。</p>
+            <p class="book-quote">「上善若水，水善利万物而不争。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">先秦</p>
+            <h3 class="book-name">诗经</h3>
+            <p class="book-desc">中国诗歌源头，风雅颂三百篇，思无邪。</p>
+            <p class="book-quote">「关关雎鸠，在河之洲。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">西汉</p>
+            <h3 class="book-name">史记</h3>
+            <p class="book-desc">太史公纪传体通史，究天人之际，通古今之变。</p>
+            <p class="book-quote">「人固有一死，或重于泰山。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">战国</p>
+            <h3 class="book-name">庄子</h3>
+            <p class="book-desc">汪洋恣肆，逍遥齐物，道家浪漫主义之巅。</p>
+            <p class="book-quote">「乘天地之正，而御六气之辩。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">战国</p>
+            <h3 class="book-name">楚辞</h3>
+            <p class="book-desc">屈子行吟，香草美人，中国浪漫主义文学源头。</p>
+            <p class="book-quote">「亦余心之所善兮，虽九死其犹未悔。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">春秋</p>
+            <h3 class="book-name">孙子兵法</h3>
+            <p class="book-desc">兵学圣典，十三篇道尽谋略，百世兵家之师。</p>
+            <p class="book-quote">「知己知彼，百战不殆。」</p>
+          </article>
+          <article class="book-card">
+            <p class="book-era">北宋</p>
+            <h3 class="book-name">资治通鉴</h3>
+            <p class="book-desc">司马光编年巨著，鉴前世兴衰，考当今得失。</p>
+            <p class="book-quote">「兼听则明，偏信则暗。」</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 每日一句 -->
+    <section class="section" id="daily">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="zh">每日一句</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="sub">与古人对话 · 一日一省</p>
+        </div>
+        <div class="daily-wrap">
+          <p class="daily-text" id="dailyText" aria-live="polite">天行健，君子以自强不息。</p>
+          <p class="daily-src" id="dailySrc">—— 《周易》</p>
+          <button class="daily-btn" id="dailyBtn" type="button">再换一句</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 典籍下载 -->
+    <section class="section section-alt" id="download">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="zh">典籍下载</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="sub">精校文本 · 随身品读</p>
+        </div>
+        <div class="dl-grid">
+          <article class="dl-card">
+            <p class="dl-badge dl-badge-free">免费</p>
+            <h3 class="dl-name">论语 · 试读版</h3>
+            <p class="dl-meta">TXT · 学而 / 为政节选</p>
+            <p class="dl-desc">至圣先师言行录，节选两章，先读为快。</p>
+            <a class="btn btn-primary dl-btn" href="downloads/lunyu-shidu.txt" download>免费下载</a>
+          </article>
+          <article class="dl-card">
+            <p class="dl-badge dl-badge-free">免费</p>
+            <h3 class="dl-name">道德经 · 试读版</h3>
+            <p class="dl-meta">TXT · 五章节选</p>
+            <p class="dl-desc">老子五千言精选，含「上善若水」名篇。</p>
+            <a class="btn btn-primary dl-btn" href="downloads/daodejing-shidu.txt" download>免费下载</a>
+          </article>
+          <article class="dl-card dl-card-paid">
+            <p class="dl-badge dl-badge-paid">付费</p>
+            <h3 class="dl-name">典藏全集 · 精校注释版</h3>
+            <p class="dl-meta">20 部全本 · TXT / PDF</p>
+            <p class="dl-desc">四书五经、诸子百家、史部要籍，全本精校，附白话注释。</p>
+            <p class="dl-price">¥ 29.9 <span>一次付费 · 永久更新</span></p>
+            <button class="btn btn-primary dl-btn" id="payBtn" type="button">微信支付 · 解锁全集</button>
+            <p class="dl-note" id="payNote" hidden>支付通道接入中，请添加站长微信获取全集：<b>guhuangjinwu</b>（备注「典籍」）</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 文章 / 动态 -->
+    <section class="section" id="articles">
+      <div class="container">
+        <div class="section-head">
+          <h2 class="zh">文章动态</h2>
+          <div class="divider" aria-hidden="true"></div>
+          <p class="sub">古籍新读 · 文化随笔</p>
+        </div>
+        <div class="article-grid">
+          <article class="article-card">
+            <p class="article-date">2026-10-01 · 经典新读</p>
+            <h3 class="article-title">为什么今天还要读《论语》？</h3>
+            <p class="article-desc">两千五百年前的对话，如何照见当代人的修身与处世——从「吾日三省吾身」谈起。</p>
+            <span class="article-tag">阅读全文 →</span>
+          </article>
+          <article class="article-card">
+            <p class="article-date">2026-09-26 · 文化随笔</p>
+            <h3 class="article-title">「上善若水」的四重境界</h3>
+            <p class="article-desc">老子以水喻道：利他、处下、柔韧、不争。一篇读懂第八章的处世智慧。</p>
+            <span class="article-tag">阅读全文 →</span>
+          </article>
+          <article class="article-card">
+            <p class="article-date">2026-09-18 · 读史札记</p>
+            <h3 class="article-title">太史公笔下的抉择：项羽本纪读后记</h3>
+            <p class="article-desc">「至今思项羽，不肯过江东」——从《史记》看成败之外的千古人格。</p>
+            <span class="article-tag">阅读全文 →</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关于 -->
+    <section class="section section-alt" id="about">
+      <div class="container about-grid">
+        <div class="about-visual" aria-hidden="true"><span>黄金屋</span></div>
+        <div class="about-text">
+          <h3>关于 <span class="accent">古黄金屋</span></h3>
+          <p>「古黄金屋」取自宋真宗赵恒《劝学诗》——「书中自有黄金屋」。我们相信，真正的财富不在金玉满堂，而在千年典籍的字里行间。</p>
+          <p>本站致力于以现代的方式呈现中华传世经典：去繁就简，只取精华；每日一句，常读常新。愿每一位来访者，都能在此觅得属于自己的「黄金屋」。</p>
+          <div class="about-stats">
+            <div class="stat"><b>300+</b><span>精选篇章</span></div>
+            <div class="stat"><b>365</b><span>每日一句</span></div>
+            <div class="stat"><b>2500</b><span>年文脉</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="site-footer">
+    <p class="footer-brand">古黄金屋</p>
+    <p class="footer-slogan">书中自有黄金屋</p>
+    <nav class="footer-nav" aria-label="页脚导航">
+      <a href="#top">首页</a>
+      <a href="#books">典籍</a>
+      <a href="#download">下载</a>
+      <a href="#articles">动态</a>
+      <a href="#daily">每日一句</a>
+      <a href="#about">关于</a>
+    </nav>
+    <p class="footer-copy">© <span id="year">2026</span> guhuangjinwu.com · 古黄金屋 版权所有</p>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      /* ---- 移动端菜单 ---- */
+      var toggle = document.getElementById("navToggle");
+      var menu = document.getElementById("navMenu");
+      if (toggle && menu) {
+        toggle.addEventListener("click", function () {
+          var isOpen = menu.classList.toggle("open");
+          toggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+          toggle.setAttribute("aria-label", isOpen ? "关闭菜单" : "打开菜单");
+          toggle.textContent = isOpen ? "✕" : "☰";
+        });
+        // 点击菜单项后收起
+        menu.addEventListener("click", function (e) {
+          if (e.target && e.target.tagName === "A" && menu.classList.contains("open")) {
+            menu.classList.remove("open");
+            toggle.setAttribute("aria-expanded", "false");
+            toggle.textContent = "☰";
+          }
+        });
+      }
+
+      /* ---- 每日一句 ---- */
+      var quotes = [
+        { text: "天行健，君子以自强不息。", src: "—— 《周易》" },
+        { text: "学而时习之，不亦说乎？", src: "—— 《论语》" },
+        { text: "知人者智，自知者明。", src: "—— 《道德经》" },
+        { text: "路漫漫其修远兮，吾将上下而求索。", src: "—— 屈原《离骚》" },
+        { text: "博学之，审问之，慎思之，明辨之，笃行之。", src: "—— 《礼记·中庸》" },
+        { text: "非淡泊无以明志，非宁静无以致远。", src: "—— 诸葛亮《诫子书》" },
+        { text: "千淘万漉虽辛苦，吹尽狂沙始到金。", src: "—— 刘禹锡《浪淘沙》" },
+        { text: "海纳百川，有容乃大；壁立千仞，无欲则刚。", src: "—— 林则徐自勉联" }
+      ];
+      var lastIndex = 0;
+      var textEl = document.getElementById("dailyText");
+      var srcEl = document.getElementById("dailySrc");
+      var btn = document.getElementById("dailyBtn");
+      if (btn && textEl && srcEl) {
+        btn.addEventListener("click", function () {
+          var i;
+          do {
+            i = Math.floor(Math.random() * quotes.length);
+          } while (i === lastIndex && quotes.length > 1);
+          lastIndex = i;
+          textEl.textContent = quotes[i].text;
+          srcEl.textContent = quotes[i].src;
+        });
+      }
+
+      /* ---- 付费解锁提示 ---- */
+      var payBtn = document.getElementById("payBtn");
+      var payNote = document.getElementById("payNote");
+      if (payBtn && payNote) {
+        payBtn.addEventListener("click", function () {
+          var isHidden = payNote.hasAttribute("hidden");
+          if (isHidden) {
+            payNote.removeAttribute("hidden");
+          } else {
+            payNote.setAttribute("hidden", "");
+          }
+        });
+      }
+
+      /* ---- 页脚年份 ---- */
+      var yearEl = document.getElementById("year");
+      if (yearEl) {
+        yearEl.textContent = String(new Date().getFullYear());
+      }
+    })();
+  </script>
+</body>
+</html>
