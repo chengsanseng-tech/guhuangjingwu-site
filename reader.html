@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>古籍阅读｜古黄金屋</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: #30271f;
+      background: #f7f0e2;
+      font-family:
+        "Noto Serif SC",
+        "Songti SC",
+        "STSong",
+        "SimSun",
+        serif;
+      line-height: 2;
+    }
+
+    a {
+      color: #76583a;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid #d8c7a9;
+      background: rgba(250, 245, 235, .96);
+      backdrop-filter: blur(8px);
+    }
+
+    .topbar-inner {
+      max-width: 960px;
+      margin: auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .back {
+      text-decoration: none;
+      color: #76583a;
+    }
+
+    .site-name {
+      font-size: .9rem;
+      color: #8d765a;
+    }
+
+    main {
+      max-width: 960px;
+      margin: auto;
+      padding: 55px 20px 80px;
+    }
+
+    .book-header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .category {
+      color: #a17d52;
+      font-size: .82rem;
+      letter-spacing: .15em;
+    }
+
+    h1 {
+      margin: 8px 0;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      letter-spacing: .1em;
+    }
+
+    .author {
+      color: #78664f;
+    }
+
+    .description {
+      max-width: 700px;
+      margin: 20px auto;
+      color: #6f5c47;
+    }
+
+    .metadata {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border: 1px solid #cdbb9c;
+      border-radius: 999px;
+      color: #78664e;
+      font-size: .78rem;
+    }
+
+    .source-box {
+      margin: 30px 0;
+      padding: 18px;
+      border-left: 4px solid #9b7c55;
+      background: #eee2cd;
+      color: #65523c;
+    }
+
+    .source-box a {
+      display: inline-block;
+      margin-top: 5px;
+    }
+
+    .content {
+      padding: 35px clamp(15px, 5vw, 55px);
+      border: 1px solid #decdb1;
+      border-radius: 10px;
+      background: rgba(255, 252, 245, .72);
+      box-shadow: 0 8px 30px rgba(83, 62, 37, .05);
+    }
+
+    .content pre {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin: 0;
+      font-family:
+        "Noto Serif SC",
+        "Songti SC",
+        "STSong",
+        "SimSun",
+        serif;
+      font-size: 1.05rem;
+      line-height: 2.1;
+    }
+
+    .status {
+      padding: 45px 20px;
+      text-align: center;
+      border: 1px dashed #cbb995;
+      border-radius: 10px;
+      color: #7b6851;
+    }
+
+    .error {
+      color: #8c4d3e;
+    }
+
+    .footer {
+      text-align: center;
+      color: #917d64;
+      font-size: .8rem;
+      padding: 30px 20px;
+      border-top: 1px solid #d8c7a9;
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="back" href="./index.html#books">
+      ← 返回古籍目录
+    </a>
+
+    <div class="site-name">
+      古黄金屋
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="book-header">
+
+    <div id="category" class="category">
+      正在载入……
+    </div>
+
+    <h1 id="title">
+      古籍阅读
+    </h1>
+
+    <div id="author" class="author"></div>
+
+    <div id="description" class="description"></div>
+
+    <div id="metadata" class="metadata"></div>
+
+  </section>
+
+  <section id="sourceBox" class="source-box" style="display:none;"></section>
+
+  <section id="content" class="content" style="display:none;">
+    <pre id="text"></pre>
+  </section>
+
+  <section id="status" class="status">
+    正在读取古籍资料……
+  </section>
+
+</main>
+
+<footer class="footer">
+  古黄金屋 · 古籍数字阅读
+</footer>
+
+<script>
+  function escapeHTML(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function showStatus(message, error = false) {
+    const status = document.getElementById("status");
+
+    status.style.display = "block";
+
+    status.innerHTML = `
+      <div class="${error ? "error" : ""}">
+        ${escapeHTML(message)}
+      </div>
+    `;
+  }
+
+  async function loadBook() {
+
+    const params = new URLSearchParams(
+      window.location.search
+    );
+
+    const bookId = params.get("book");
+
+    if (!bookId) {
+      showStatus(
+        "没有指定古籍。请从古籍目录选择一本书。",
+        true
+      );
+      return;
+    }
+
+    try {
+
+      const response = await fetch(
+        "./data/books.json",
+        { cache: "no-cache" }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "无法加载古籍目录"
+        );
+      }
+
+      const data = await response.json();
+
+      const book = data.books.find(
+        item => item.id === bookId
+      );
+
+      if (!book) {
+        showStatus(
+          "没有找到这部古籍。",
+          true
+        );
+        return;
+      }
+
+      document.title =
+        book.title + "｜古黄金屋";
+
+      document.getElementById("category").textContent =
+        book.category || "古籍";
+
+      document.getElementById("title").textContent =
+        book.title;
+
+      document.getElementById("author").textContent =
+        [
+          book.author,
+          book.dynasty
+        ]
+        .filter(Boolean)
+        .join(" · ");
+
+      document.getElementById("description").textContent =
+        book.description || "";
+
+      const metadata = document.getElementById("metadata");
+
+      metadata.innerHTML = [
+        book.readingMode,
+        book.license,
+        book.status
+      ]
+        .filter(Boolean)
+        .map(value =>
+          `<span class="tag">${escapeHTML(value)}</span>`
+        )
+        .join("");
+
+      const sourceBox =
+        document.getElementById("sourceBox");
+
+      if (book.source) {
+
+        sourceBox.style.display = "block";
+
+        sourceBox.innerHTML = `
+          <strong>
+            来源 / 版本
+          </strong>
+          <br>
+
+          ${escapeHTML(
+            book.sourceName || "公开来源"
+          )}
+
+          <br>
+
+          <a
+            href="${escapeHTML(book.source)}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            打开来源页面 →
+          </a>
+        `;
+      }
+
+      if (book.text) {
+
+        try {
+
+          const textResponse = await fetch(
+            "./" + book.text,
+            { cache: "no-cache" }
+          );
+
+          if (!textResponse.ok) {
+            throw new Error(
+              "正文文件不存在"
+            );
+          }
+
+          const text =
+            await textResponse.text();
+
+          document.getElementById("text").textContent =
+            text;
+
+          document.getElementById("content").style.display =
+            "block";
+
+          document.getElementById("status").style.display =
+            "none";
+
+        } catch (error) {
+
+          showStatus(
+            "目录中记录了正文文件，但当前正文文件无法读取。",
+            true
+          );
+        }
+
+      } else {
+
+        showStatus(
+          "这部古籍目前只有目录资料，尚未收录可直接在线阅读的全文。本站会在核验版本及授权状态后逐步补充。"
+        );
+
+      }
+
+    } catch (error) {
+
+      console.error(error);
+
+      showStatus(
+        "古籍资料加载失败，请稍后刷新页面。",
+        true
+      );
+    }
+  }
+
+  loadBook();
+</script>
+
+</body>
+</html>
