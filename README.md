@@ -14,6 +14,7 @@ data/books.json{
       "format": ["TXT", "HTML"],
       "readingMode": "text",
       "text": "lunyu-shidu.txt",
+
       "source": "",
       "sourceName": "本站整理文本",
       "license": "本站现有整理文本",
@@ -273,6 +274,31 @@ data/books.json{
       "sourceName": "待核验公开影印版本",
       "license": "来源待核验",
       "status": "catalog"
-    }
-  ]
+    data/marketplace.json{
+  "enabled": false,
+  "name": "自由书肆集市",
+  "version": "1.0.0",
+  "notice": "备案完成并通过相关审核、具备相应运营条件后再开启。访客只能上传自己拥有合法权利或已经取得授权的数字古籍，并自行定价。",
+  "description": "古黄金屋未来的数字古籍自由交易模块。",
+  "fields": [
+    "title",
+    "author",
+    "uploader",
+    "price",
+    "currency",
+    "license",
+    "rightsDeclaration",
+    "cover",
+    "txt",
+    "pdf",
+    "published",
+    "createdAt",
+    "updatedAt"
+  ],
+  "rules": {
+    "requireRightsDeclaration": true,
+    "allowCopyrightedMaterialWithoutAuthorization": false,
+    "requireManualReview": true,
+    "defaultPublished": false
+  }
 }
