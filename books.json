@@ -1,0 +1,162 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-10-07",
+  "books": [
+    {
+      "id": "lunyu",
+      "title": "论语",
+      "author": "孔子弟子及再传弟子",
+      "category": "儒家",
+      "type": "text",
+      "text": "lunyu-shidu.txt",
+      "description": "经典儒家语录；站内已有整理文本。"
+    },
+    {
+      "id": "daodejing",
+      "title": "道德经",
+      "author": "老子",
+      "category": "道家",
+      "type": "text",
+      "text": "daodejing-shidu.txt",
+      "description": "道家经典；站内已有整理文本。"
+    },
+    {
+      "id": "shijing",
+      "title": "诗经",
+      "author": "传统文献",
+      "category": "经部",
+      "type": "catalog",
+      "description": "中国古代诗歌总集，先保留目录与版本信息。"
+    },
+    {
+      "id": "shiji",
+      "title": "史记",
+      "author": "司马迁",
+      "category": "史部",
+      "type": "catalog",
+      "description": "纪传体通史，先保留目录与版本信息。"
+    },
+    {
+      "id": "zhuangzi",
+      "title": "庄子",
+      "author": "庄周及后学",
+      "category": "道家",
+      "type": "catalog",
+      "description": "先秦道家经典，先保留目录与版本信息。"
+    },
+    {
+      "id": "chuci",
+      "title": "楚辞",
+      "author": "传统文献",
+      "category": "集部",
+      "type": "catalog",
+      "description": "先秦两汉楚辞文献，先保留目录与版本信息。"
+    },
+    {
+      "id": "sunzi",
+      "title": "孙子兵法",
+      "author": "孙武",
+      "category": "兵家",
+      "type": "catalog",
+      "description": "中国古代兵学经典，先保留目录与版本信息。"
+    },
+    {
+      "id": "zizhitongjian",
+      "title": "资治通鉴",
+      "author": "司马光等",
+      "category": "史部",
+      "type": "catalog",
+      "description": "编年体史书，先保留目录与版本信息。"
+    },
+    {
+      "id": "qingnangjing",
+      "title": "青囊经",
+      "author": "传统文献",
+      "category": "堪舆",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "堪舆类古籍条目；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "qingnang-aoyu",
+      "title": "青囊奥语",
+      "author": "传统文献",
+      "category": "堪舆",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "堪舆类古籍条目；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "yilongjing",
+      "title": "疑龙经",
+      "author": "杨筠松（传统署名）",
+      "category": "堪舆",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "堪舆类古籍条目；作者署名及版本待核验。"
+    },
+    {
+      "id": "hanlongjing",
+      "title": "撼龙经",
+      "author": "杨筠松（传统署名）",
+      "category": "堪舆",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "堪舆类古籍条目；作者署名及版本待核验。"
+    },
+    {
+      "id": "yangzhai-shishu",
+      "title": "阳宅十书",
+      "author": "传统文献",
+      "category": "堪舆",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "阳宅类古籍条目；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "yuanhaiziping",
+      "title": "渊海子平",
+      "author": "传统子平文献",
+      "category": "命理",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "子平命理类古籍条目；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "sanmingtonghui",
+      "title": "三命通会",
+      "author": "万民英",
+      "category": "命理",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "明代命理文献；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "ditiansui",
+      "title": "滴天髓",
+      "author": "传统子平文献",
+      "category": "命理",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "命理类古籍条目；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "zipingzhenquan",
+      "title": "子平真诠",
+      "author": "沈孝瞻（传统署名）",
+      "category": "命理",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "子平命理文献；待核验具体版本与合法影印来源。"
+    },
+    {
+      "id": "maiyixiangfa",
+      "title": "麻衣相法",
+      "author": "传统相术文献",
+      "category": "相术",
+      "type": "catalog",
+      "license": "来源待核验",
+      "description": "相术类古籍条目；待核验具体版本与合法影印来源。"
+    }
+  ]
+}

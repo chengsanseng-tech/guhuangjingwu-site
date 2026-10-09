@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>古黄金屋｜古籍典藏</title>
+<meta name="description" content="古黄金屋：经史子集、传统文化与古籍阅读。">
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans SC","Microsoft YaHei",sans-serif;color:#2d261f;background:#f7f2e8;line-height:1.7}a{color:inherit}.wrap{max-width:1120px;margin:auto;padding:0 18px}.top{background:#241b15;color:#f8ead0}.nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0}.brand{font-size:24px;font-weight:700}.navlinks a{text-decoration:none;margin-left:18px}.hero{padding:60px 0 44px}.hero h1{font-size:42px;margin:0 0 12px}.hero p{max-width:720px;color:#d9cbb7}.tools{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}.tools input,.tools select{padding:11px 13px;border:1px solid #d5c8b5;border-radius:8px;background:#fffdf8;font-size:15px}.section{padding:34px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:#fffdf8;border:1px solid #e1d7c8;border-radius:12px;padding:20px;box-shadow:0 5px 18px #0000000a}.tag{display:inline-block;padding:3px 8px;border-radius:999px;background:#eee4d5;font-size:12px}.card h3{margin:10px 0 5px}.meta{font-size:13px;color:#776c60}.actions{display:flex;gap:9px;margin-top:15px;flex-wrap:wrap}.btn{display:inline-block;padding:8px 12px;border-radius:7px;text-decoration:none;border:1px solid #bda98e}.btn.primary{background:#4b3828;color:#fff;border-color:#4b3828}.quote{background:#eee5d7;padding:22px;border-radius:12px;font-size:18px}footer{padding:38px 0;color:#766b5f;font-size:13px}@media(max-width:800px){.grid{grid-template-columns:1fr 1fr}.hero h1{font-size:34px}}@media(max-width:560px){.grid{grid-template-columns:1fr}.navlinks{display:none}.hero{padding-top:35px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap nav"><div class="brand">古黄金屋</div><nav class="navlinks"><a href="#books">典籍</a><a href="#about">说明</a></nav></div></header>
+<main>
+<section class="top"><div class="wrap hero"><h1>古籍典藏，静心阅读</h1><p>汇集经史子集与传统文化典籍。优先收录公版、开放许可或已核验来源的文本与影印资料，并区分整理本与影印本。</p><div class="tools"><input id="search" placeholder="搜索书名、作者、分类"><select id="category"><option value="">全部分类</option></select></div></div></section>
+<section id="books" class="section wrap"><h2>典籍目录</h2><div id="grid" class="grid"></div></section>
+<section class="section wrap"><h2>每日一语</h2><div id="quote" class="quote"></div></section>
+<section id="about" class="section wrap"><h2>关于书肆集市</h2><p>“自由书肆集市”模块已预留数据结构，目前隐藏。备案完成并具备相应运营条件后，再接入上传、定价、审核、存储及支付等后端能力。</p></section>
+</main>
+<footer class="wrap">© <span id="year"></span> 古黄金屋</footer>
+<script>
+const quotes=["学而时习之，不亦说乎？","上善若水。水善利万物而不争。","知之为知之，不知为不知，是知也。","天行健，君子以自强不息。"];
+document.getElementById("quote").textContent=quotes[new Date().getDate()%quotes.length];
+document.getElementById("year").textContent=new Date().getFullYear();
+let books=[];const grid=document.getElementById("grid"),search=document.getElementById("search"),category=document.getElementById("category");
+function render(){const q=search.value.trim().toLowerCase(),c=category.value;const list=books.filter(b=>(!c||b.category===c)&&(!q||[b.title,b.author,b.category,b.description].join(" ").toLowerCase().includes(q)));grid.innerHTML=list.map(b=>`<article class="card"><span class="tag">${b.category}</span><h3>${b.title}</h3><div class="meta">${b.author||"作者待核"} · ${b.type==="facsimile"?"影印本":"整理文本/目录"}</div><p>${b.description||""}</p><div class="actions"><a class="btn primary" href="reader.html?book=${encodeURIComponent(b.id)}">在线阅读</a>${b.source?`<a class="btn" target="_blank" rel="noopener" href="${b.source}">来源</a>`:""}</div></article>`).join("")||"<p>没有找到匹配典籍。</p>";}
+fetch("data/books.json").then(r=>r.json()).then(d=>{books=d.books||[];[...new Set(books.map(b=>b.category))].forEach(c=>category.insertAdjacentHTML("beforeend",`<option>${c}</option>`));render()}).catch(()=>grid.innerHTML="<p>目录加载失败，请检查 data/books.json。</p>");
+search.addEventListener("input",render);category.addEventListener("change",render);
+</script>
+</body></html>
